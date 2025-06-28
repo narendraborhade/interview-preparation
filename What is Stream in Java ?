@@ -1,0 +1,62 @@
+Stream is a powerful abstraction for processing sequences of data (like collections, arrays, etc.) in a functional style.
+
+What is a Stream?
+
+A Stream is a sequence of elements that supports various operations to perform computations on data.
+
+* It doesn’t store data itself.
+* It operates on the source data (like a List or Set).
+* It allows pipelined (chained), lazy, and parallelizable operations.
+
+Key Features of Streams
+
+| Feature              | Description                                                                        |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| Functional Style | Use of lambda expressions and functional operations like `map`, `filter`           |
+| No Storage       | Streams don’t hold data; they process it from the underlying source                |
+| Lazy Evaluation  | Operations are only performed when a terminal operation (like `collect`) is called |
+| Pipelining       | Intermediate operations are chained to form a pipeline                             |
+| Parallelization  | Easy conversion to parallel streams (`parallelStream()`) for better performance    |
+
+Stream Operation Types
+
+1. Intermediate Operations (return another stream)
+
+   * `filter()`
+   * `map()`
+   * `sorted()`
+   * `distinct()`
+   * `limit()`, `skip()`
+
+2. Terminal Operations (trigger the processing)
+
+   * `collect()`
+   * `forEach()`
+   * `reduce()`
+   * `count()`
+   * `anyMatch()`, `allMatch()`
+
+Simple Example
+
+```java
+import java.util.*;
+import java.util.stream.*;
+
+public class StreamExample {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Raj", "Ravi", "Rajesh", "Rohan");
+
+        List<String> filtered = names.stream()               // Create stream
+                                     .filter(n -> n.startsWith("Ra")) // Filter names starting with "Ra"
+                                     .map(String::toUpperCase)         // Convert to upper case
+                                     .collect(Collectors.toList());    // Terminal operation to collect result
+
+        System.out.println(filtered); // Output: [RAJ, RAVI, RAJESH]
+    }
+}
+ 
+When to Use Streams?
+
+* When you want to process collections (filter, transform, sort, aggregate).
+* To reduce boilerplate and write cleaner code.
+* When parallel processing is needed for performance.
