@@ -1,0 +1,36 @@
+The SOLID principles are a set of five design principles in object-oriented programming that help developers create software that is easy 
+to maintain, extend, and understand. 
+They were introduced by Robert C. Martin (Uncle Bob) and are widely used in modern software engineering, especially in OOP languages 
+like Java, C#, and Python.
+
+S — Single Responsibility Principle (SRP)
+
+Definition: A class should have only one reason to change.
+Meaning: Each class should focus on a single task or responsibility.
+Example: A `UserService` class should not handle both user validation and database logging.
+
+O — Open/Closed Principle (OCP)
+
+Definition: Software entities (classes, modules, functions) should be open for extension but closed for modification.
+Meaning: You should be able to add new functionality without changing existing code.
+Example: Use interfaces or abstract classes and implement new behaviors via inheritance or composition.
+
+L — Liskov Substitution Principle (LSP)
+
+Definition: Subtypes must be substitutable for their base types without breaking the application.
+Meaning: If class `B` is a subclass of class `A`, then `A`'s objects can be replaced by `B`'s objects without altering correctness.
+Example: If you have a `Bird` class and a subclass `Penguin`, make sure methods used on `Bird` work with `Penguin` too (e.g., don’t assume 
+all birds can fly).
+
+I — Interface Segregation Principle (ISP)
+
+Definition: No client should be forced to depend on interfaces it does not use.
+Meaning: Break large interfaces into smaller, more specific ones.
+Example: Instead of one `IMachine` interface with `print()`, `scan()`, and `fax()`, use `IPrinter`, `IScanner`, and `IFax` interfaces.
+
+
+D — Dependency Inversion Principle (DIP)
+
+Definition: High-level modules should not depend on low-level modules; both should depend on abstractions.
+Meaning: Depend on interfaces or abstract classes rather than concrete implementations.
+Example: Instead of creating a `MySQLDatabase` object directly, depend on a `Database` interface and inject the dependency.
