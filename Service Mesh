@@ -1,0 +1,63 @@
+A **Service Mesh** is a dedicated infrastructure layer that manages **service-to-service communication** in a **microservices architecture**. 
+It handles things like **traffic routing, service discovery, load balancing, security (like mTLS), observability (tracing, logging), and fault tolerance** — all **without requiring changes to application code**.
+
+---
+
+### 🔧 How It Works:
+
+A service mesh typically uses **sidecar proxies** (e.g., Envoy) that are **deployed alongside each service instance**. These proxies intercept and manage all network traffic between services.
+
+---
+
+### 🎯 Key Features:
+
+1. **Traffic Management**:
+
+   * Intelligent routing, retries, timeouts
+   * Canary releases, blue-green deployments
+
+2. **Security**:
+
+   * Mutual TLS (mTLS) for service-to-service encryption
+   * Fine-grained access control
+
+3. **Observability**:
+
+   * Distributed tracing
+   * Metrics and logs for visibility
+
+4. **Resilience**:
+
+   * Circuit breakers
+   * Failover and retry policies
+
+---
+
+### 🌐 Popular Service Mesh Tools:
+
+| Tool                        | Description                                            |
+| --------------------------- | ------------------------------------------------------ |
+| **Istio**                   | Most popular; works with Kubernetes; rich feature set  |
+| **Linkerd**                 | Lightweight, performance-focused                       |
+| **Consul Connect**          | Integrated with HashiCorp Consul for service discovery |
+| **AWS App Mesh**            | Managed service mesh on AWS                            |
+| **Open Service Mesh (OSM)** | Lightweight, Microsoft-backed, CNCF project            |
+
+---
+
+### 🧱 When to Use a Service Mesh:
+
+Use it if you:
+
+* Have many microservices interacting with each other
+* Need fine-grained control over service communication
+* Want security, observability, and reliability built into your communication stack
+
+Avoid it if:
+
+* You have a simple monolith or few services
+* You're not ready for the complexity it adds
+
+---
+
+Would you like a comparison between Istio and Linkerd, or an example of how a service mesh fits into a Kubernetes environment?
