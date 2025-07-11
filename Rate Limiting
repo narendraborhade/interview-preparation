@@ -1,1 +1,72 @@
+Rate limiting in microservices is a strategy used to control the number of requests a user, service, or client can make to a particular microservice in a given time window. 
+It is essential for ensuring system stability, fair resource usage, and preventing abuse or overuse.
 
+Why Use Rate Limiting?
+
+Prevent DDoS attacks or abusive clients
+Ensure fair usage across multiple consumers
+Protect backend services and databases from overload
+Maintain SLAs (Service Level Agreements)
+
+Common Rate Limiting Algorithms
+
+| Algorithm          | Description                                                                  | Use Case                   |
+| ------------------ | ---------------------------------------------------------------------------- | -------------------------- |
+| Fixed Window   | Limits requests in a fixed time window (e.g., 100 requests per minute)       | Simple APIs                |
+| Sliding Window | Allows a smoother distribution by considering requests over a rolling window | More accurate rate control |
+| Token Bucket   | Tokens are added at a fixed rate; each request consumes a token              | Bursty traffic is allowed  |
+| Leaky Bucket   | Queues requests and processes them at a fixed rate                           | Smooths out bursts         |
+
+---
+
+### 🔧 How to Implement Rate Limiting
+
+#### 1. At API Gateway Level
+
+ Use tools like:
+
+   Kong
+   NGINX
+   AWS API Gateway
+   Envoy Proxy / Istio (in service mesh)
+ Example in Kong:
+
+  ```yaml
+  plugins:
+    - name: rate-limiting
+      config:
+        minute: 100
+        policy: local
+  ```
+
+#### 2. At Application Level
+
+ Implement using in-memory stores like Redis.
+ Example: Using a token bucket algorithm in Java or Python.
+ Java libraries: Bucket4j, Resilience4j
+
+#### 3. Distributed Rate Limiting
+
+ Use centralized stores like Redis, Memcached for shared counters.
+ Ideal for load-balanced or horizontally scaled systems.
+
+---
+
+### ⚙ Example with Redis (Python Pseudocode)
+
+```python
+if redis.get(user_id) >= LIMIT:
+    return "429 Too Many Requests"
+else:
+    redis.incr(user_id)
+    redis.expire(user_id, 60)  # reset every 60 seconds
+```
+
+---
+
+### 📊 Best Practices
+
+ Use exponential backoff + retries on the client side
+ Return appropriate HTTP status codes (e.g., `429 Too Many Requests`)
+ Include rate limit headers (`X-RateLimit-Remaining`)
+ Allow different limits for different users (e.g., paid vs free)
