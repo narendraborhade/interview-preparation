@@ -33,10 +33,95 @@ Typical Use Cases
 
 2. What are the main components of Kafka?
 
+1. Producer
+* Sends (publishes) data (messages/events) to Kafka topics.
+* Pushes data to a specific topic.
+* Can choose the partition based on a key (for ordering) or let Kafka decide.
+* Can be asynchronous or synchronous.
 
+2. Consumer
+* Reads data from Kafka topics.
+* Works in consumer groups to enable parallel processing.
+* Each partition is read by only one consumer in a group (load balancing).
+* Tracks its position using offsets.
+
+3. Topic
+* A named stream of records/messages.
+* Data is categorized and stored in topics.
+* Topics are divided into partitions for scalability and parallelism.
+
+4. Partition
+* Each topic is split into one or more partitions.
+* Messages within a partition are ordered.
+* Allows Kafka to scale horizontally across brokers.
+* Partitions are the unit of parallelism in Kafka.
+
+5. Broker
+* A Kafka server that stores data and serves clients.
+* Each broker handles multiple topic-partitions.
+* A Kafka cluster consists of multiple brokers.
+* One broker acts as a leader for a partition; others are replicas.
+
+6. Zookeeper (Deprecated in newer versions, replaced by KRaft mode)
+* Used for cluster coordination, configuration, and leader election.
+* Manages metadata and broker health.
+* In Kafka 2.8+ and later, KRaft mode (Kafka Raft) removes dependency on Zookeeper.
+
+7. Consumer Group
+* A group of consumers working together to consume messages from a topic.
+* Ensures scalable and fault-tolerant consumption.
+* Each partition is assigned to only one consumer within the group.
+
+8. Leader and Follower (Replication)
+* Each partition has one leader and multiple followers.
+* The leader handles all reads and writes.
+* Followers replicate the data for high availability.
 
 
 3. What is a Kafka topic and partition?
+A Kafka topic is like a category or feed name to which records (messages) are sent by producers and from which they are read by consumers.
+* Think of it as a channel where messages are published and subscribed.
+* You can have multiple producers and multiple consumers for a single topic.
+Example: A topic named `"user-signups"` could store all new user registration events.
+
+What is a Partition?
+A partition is a sub-division of a topic. Each topic can be split into multiple partitions to allow parallelism and scalability.
+
+Each partition:
+* Is an ordered sequence of messages.
+* Stores messages with an offset (unique ID).
+* Is stored on a Kafka broker.
+* Has one leader (for read/write) and zero or more replicas (for fault tolerance).
+
+Messages within a partition are always in the same order they were written.
+Example:
+Suppose you have a topic:
+Topic: orders
+Partitions: 3 (P0, P1, P2)
+Kafka will distribute incoming messages across the 3 partitions. For example:
+
+| Message | Partition |
+| ------- | --------- |
+| Order1  | P0        |
+| Order2  | P1        |
+| Order3  | P2        |
+| Order4  | P0        |
+
+Why Use Partitions?
+* Scalability: Allows Kafka to distribute load across multiple brokers.
+* Parallelism: Multiple consumers can read in parallel.
+* Performance: Better throughput for both producers and consumers.
+
+Summary Table:
+
+| Concept   | Description                           |
+| --------- | ------------------------------------- |
+| Topic     | Logical stream of messages            |
+| Partition | Physical storage unit within a topic  |
+| Offset    | Unique ID of a message in a partition |
+| Broker    | Kafka server storing topic partitions |
+
+
 4. What is the role of Zookeeper in Kafka?
 5. What is a Kafka producer and consumer?
 6. How does Kafka ensure message durability?
