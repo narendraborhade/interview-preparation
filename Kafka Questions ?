@@ -481,6 +481,57 @@ Summary Table
 ### 🔹 Intermediate Kafka Interview Questions
 
 1. What happens if a Kafka broker goes down?
+Kafka is designed for high availability and fault tolerance. When a broker goes down, Kafka continues working with minimal disruption using its 
+replication and leader election mechanisms.
+
+Step-by-Step Breakdown
+
+1. Detection by Zookeeper (or KRaft)
+* Kafka uses Zookeeper (or internal metadata quorum in KRaft mode) to monitor broker health.
+* When a broker becomes unresponsive, it's marked as dead.
+
+2. Partition Leadership Reassignment
+* Kafka partitions have leaders (for reads/writes) and followers (replicas).
+* If the downed broker was a leader for some partitions:
+
+  * Kafka automatically elects a new leader from the in-sync replicas (ISR).
+  * Producers and consumers are redirected to the new leader.
+
+3. No Data Loss (if ISR is intact)
+* Since data is replicated, as long as there are enough in-sync replicas, no data is lost.
+* If `acks=all` is used, producers only get an acknowledgment after all replicas have the message.
+
+4. Producers/Consumers Continue
+* Clients retry and automatically connect to the new partition leaders.
+* Kafka’s client libraries are designed to handle leader changes and retries.
+
+5. Recovery
+* When the broker comes back:
+  * It rejoins the cluster.
+  * It syncs the missing data from the leader.
+  * It rejoins the ISR if it catches up.
+
+Example Scenario
+
+Cluster: 3 Brokers (B1, B2, B3)
+Topic: `orders`, Replication Factor: 3
+Partition 0 Leader: B1
+B1 Goes Down
+→ Kafka reassigns Partition 0’s leader to B2 or B3
+→ Producers and consumers resume through the new leader
+
+Summary Table
+
+| What Happens               | Kafka's Action                        |
+| -------------------------- | ------------------------------------- |
+| Broker failure             | Detected via Zookeeper/KRaft          |
+| Leader partition on broker | New leader elected from ISR           |
+| Producers writing data     | Redirected to new leader              |
+| Consumers reading data     | Rebalanced to active partitions       |
+| Data loss?                 | No, if replication and ISR are intact |
+| Broker comes back          | Syncs data and rejoins ISR            |
+
+
 2. What is ISR (In-Sync Replicas)?
 3. How does Kafka provide fault tolerance?
 4. Explain producer acknowledgment levels (acks=0, 1, all).
@@ -491,7 +542,7 @@ Summary Table
 9. How do Kafka partitions help with scalability?
 10. How can you monitor Kafka? What tools are available?
 
----
+----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### 🔹 Advanced Kafka Interview Questions
 
