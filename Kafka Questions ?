@@ -228,6 +228,55 @@ Summary Table:
 
 
 6. How does Kafka ensure message durability?
+Kafka ensures message durability—that is, data is not lost even if brokers crash or restart—through a combination of disk persistence,
+replication, and acknowledgment settings.
+
+1. Disk-Based Persistence
+* All messages written to Kafka are immediately written to disk.
+* Kafka stores data in commit logs for each partition.
+* This ensures messages survive broker restarts or crashes.
+> Data is stored in segment files in the broker's local file system.
+
+2. Replication
+* Kafka replicates each partition across multiple brokers (called replica brokers).
+* One replica is elected as the leader; others are followers.
+* Followers copy data from the leader to stay in sync.
+> Example: With replication factor 3, your data exists on 3 different brokers.
+
+3. In-Sync Replicas (ISR)
+* ISR = Set of replicas that are fully caught up with the leader.
+* Kafka only acknowledges writes once the message is written to all ISRs (if `acks=all` is set).
+* Ensures that even if the leader fails, one of the ISR replicas can take over without data loss.
+
+4. Producer Acknowledgments (`acks` setting)
+* Controls when a producer gets a confirmation:
+  * `acks=0`: No durability (no acknowledgment).
+  * `acks=1`: Durability depends on the leader only.
+  * `acks=all`: Safest — wait for all ISR replicas to acknowledge.
+
+5. Log Retention and Configuration
+* Kafka retains messages based on:
+  * Time (`log.retention.hours`)
+  * Size (`log.retention.bytes`)
+* Data is retained even after it’s consumed, depending on config.
+
+6. Write-Ahead Log (WAL) Nature
+* Kafka never deletes data immediately.
+* Uses an append-only log structure—great for durability and recovery.
+
+Summary Table:
+
+| Feature            | How It Ensures Durability                      |
+| ------------------ | ---------------------------------------------- |
+| Disk Storage       | All messages are written to disk               |
+| Replication        | Data exists on multiple brokers                |
+| In-Sync Replicas   | Ensures replicas are updated before ack        |
+| acks=all           | Confirms message only when all ISRs receive it |
+| Retention Settings | Controls how long data is stored               |
+
+
+
+
 7. What is the difference between Kafka and traditional messaging systems like RabbitMQ or ActiveMQ?
 8. How do Kafka consumers read data?
 9. What is a consumer group in Kafka?
