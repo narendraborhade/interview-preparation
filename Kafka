@@ -1,0 +1,60 @@
+Here are commonly asked Apache Kafka interview questions, organized by difficulty level and topic area:
+
+---
+
+### 🔹 Basic Kafka Interview Questions
+
+1. What is Apache Kafka?
+2. What are the main components of Kafka?
+
+   * Broker, Topic, Partition, Producer, Consumer, Zookeeper
+3. What is a Kafka topic and partition?
+4. What is the role of Zookeeper in Kafka?
+5. What is a Kafka producer and consumer?
+6. How does Kafka ensure message durability?
+7. What is the difference between Kafka and traditional messaging systems like RabbitMQ or ActiveMQ?
+8. How do Kafka consumers read data?
+9. What is a consumer group in Kafka?
+10. How does Kafka handle message retention?
+
+---
+
+### 🔹 Intermediate Kafka Interview Questions
+
+1. What happens if a Kafka broker goes down?
+2. What is ISR (In-Sync Replicas)?
+3. How does Kafka provide fault tolerance?
+4. Explain producer acknowledgment levels (acks=0, 1, all).
+5. How can you achieve exactly-once message delivery in Kafka?
+6. What is Kafka offset? How is it managed?
+7. Difference between Kafka at-most-once, at-least-once, and exactly-once delivery semantics?
+8. What is log compaction in Kafka?
+9. How do Kafka partitions help with scalability?
+10. How can you monitor Kafka? What tools are available?
+
+---
+
+### 🔹 Advanced Kafka Interview Questions
+
+1. What is Kafka Streams? How is it different from Kafka Consumer API?
+2. How does Kafka handle backpressure?
+3. What are idempotent producers in Kafka?
+4. What is the role of Kafka Connect?
+5. How do you secure a Kafka cluster?
+
+   * SSL, SASL, ACLs
+6. What is the use of Kafka Schema Registry?
+7. How does Kafka guarantee order of messages?
+8. How do you implement transactional messaging in Kafka?
+9. How do you perform Kafka cluster rebalancing?
+10. Describe Kafka internal storage format.
+
+---
+
+### 🔹 Scenario-Based Kafka Questions
+
+1. How would you design a Kafka-based system to process millions of messages per second?
+2. What would you do if consumers are falling behind the producer rate?
+3. How to handle message replay in Kafka?
+4. Your Kafka consumer keeps getting duplicate messages — how would you debug and fix it?
+5. Describe a time you handled a Kafka cluster upgrade.
