@@ -547,6 +547,59 @@ Summary Table
 ### 🔹 Advanced Kafka Interview Questions
 
 1. What is Kafka Streams? How is it different from Kafka Consumer API?
+Kafka Streams is a client-side Java library from Apache Kafka used to build real-time, distributed, and fault-tolerant stream 
+processing applications.
+
+It allows you to:
+* Read data from Kafka topics
+* Perform stateful and stateless transformations
+* Join, aggregate, or window the data
+* Write results back to Kafka (or elsewhere)
+
+Kafka Streams Key Features
+* Lightweight (no need for a separate cluster)
+* Supports event-time processing, windowing, joins, stateful operations
+* Built on Kafka Consumer API under the hood
+* Supports exactly-once semantics (EOS)
+* Local state store with optional RocksDB backend
+
+Typical Use Case Example
+
+StreamsBuilder builder = new StreamsBuilder();
+KStream<String, String> input = builder.stream("input-topic");
+KStream<String, String> transformed = input.mapValues(value -> value.toUpperCase());
+transformed.to("output-topic");
+
+Kafka Consumer API vs Kafka Streams — Comparison
+
+| Feature                  | Kafka Consumer API                     | Kafka Streams API                               |
+| ------------------------ | ------------------------------------------ | --------------------------------------------------- |
+| Purpose              | Low-level consumption of Kafka topics      | High-level stream processing on Kafka data          |
+| Level of abstraction | Low-level (you handle everything manually) | High-level DSL and API                              |
+| Stateless/Stateful   | Stateless by default                       | Supports both stateless and stateful operations |
+| State management     | You must implement it yourself             | Built-in state stores with fault tolerance          |
+| Processing model     | Manual polling, committing, rebalance      | Declarative, continuous stream processing           |
+| Windowing/Joins      | Not supported out-of-the-box               | ✅ Built-in support                                  |
+| Fault tolerance      | You handle it                              | Built-in recovery and changelog topics              |
+| Deployment           | Run as any Java application                | Same — no special cluster needed                    |
+| Complexity           | More code, more control                    | Less code, higher productivity                      |
+
+When to Use What?
+
+| Use Kafka Consumer API when:                                  |
+| ------------------------------------------------------------- |
+| - You need low-level control over consumption logic       |
+| - You're building a simple data mover or custom tool      |
+| - You want to integrate Kafka with another system (ETL style) |
+
+| Use Kafka Streams when:                                                                 |
+| --------------------------------------------------------------------------------------- |
+| - You need real-time stream processing, like filtering, joins, aggregation          |
+| - You want windowed analysis, stateful transformations, or event-time logic |
+| - You want to scale stream apps easily with built-in fault tolerance                |
+
+
+
 2. How does Kafka handle backpressure?
 3. What are idempotent producers in Kafka?
 4. What is the role of Kafka Connect?
